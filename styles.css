@@ -356,3 +356,85 @@ h3 { font-size: 1.25rem; }
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ===================================================================
+   Lebendiger & freundlicher – Enhancements
+   =================================================================== */
+:root {
+  --radius: 22px;
+  --radius-sm: 14px;
+  --peach: #ff9a6c;
+  --pink: #ff6fa5;
+}
+
+/* Wärmerer, sanft wandernder Hintergrund-Schimmer */
+body::before {
+  background:
+    radial-gradient(55% 45% at 12% 2%, rgba(91,108,255,0.18), transparent 60%),
+    radial-gradient(50% 45% at 88% 8%, rgba(255,122,47,0.17), transparent 60%),
+    radial-gradient(45% 40% at 78% 92%, rgba(255,111,165,0.11), transparent 65%),
+    radial-gradient(55% 55% at 28% 100%, rgba(91,108,255,0.10), transparent 70%);
+  background-size: 200% 200%;
+  animation: auroraDrift 26s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Schimmernde Verlaufs-Überschrift */
+.gradient-text {
+  background: linear-gradient(100deg, var(--primary-2), var(--ember-2), var(--pink), var(--primary-2));
+  background-size: 260% auto;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+@keyframes shimmer { to { background-position: 260% center; } }
+
+/* Freundlicheres „Aufploppen" beim Reinscrollen */
+.reveal { transform: translateY(28px) scale(.985); }
+.reveal.in { transform: none; }
+
+/* Schwebende, leuchtende Leistungs-Icons */
+.service .ico { animation: floaty 5s ease-in-out infinite; }
+.service:nth-child(2n) .ico { animation-delay: .8s; }
+.service:nth-child(3n) .ico { animation-delay: 1.6s; }
+.service:hover .ico { box-shadow: 0 10px 30px rgba(255,122,47,0.35); }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+/* Bouncier Buttons, sanft leuchtender Haupt-Button */
+.btn { transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease, background .25s ease; }
+.btn:hover { transform: translateY(-3px) scale(1.03); }
+.btn:active { transform: translateY(-1px) scale(.99); }
+.btn-primary { animation: ctaGlow 3.2s ease-in-out infinite; }
+@keyframes ctaGlow {
+  0%,100% { box-shadow: 0 8px 30px rgba(91,108,255,0.40); }
+  50%     { box-shadow: 0 10px 40px rgba(255,122,47,0.45); }
+}
+
+/* Wärmere, rundere Karten mit lebhafterem Hover */
+.service, .result-card, .step, .tm-card, .pain, .bigstat {
+  border-radius: var(--radius);
+  background-image: linear-gradient(180deg, rgba(255,255,255,0.045), transparent 42%);
+}
+.service:hover, .result-card:hover, .step:hover, .tm-card:hover {
+  transform: translateY(-8px) scale(1.012);
+}
+
+/* Freundliche Akzente */
+.eyebrow { box-shadow: 0 6px 22px rgba(91,108,255,0.18); }
+.eyebrow.ember { box-shadow: 0 6px 22px rgba(255,122,47,0.18); }
+.brand-chip:hover { color: var(--ember-2); }
+.step .no { color: var(--ember-2); }
+
+/* CTA-Box etwas wärmer & lebendiger */
+.cta-box {
+  background: linear-gradient(135deg, rgba(91,108,255,0.16), rgba(255,111,165,0.10) 55%, rgba(255,122,47,0.14));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none !important; }
+  .gradient-text { animation: none !important; }
+  .service .ico { animation: none !important; }
+  .btn-primary { animation: none !important; }
+}
