@@ -438,3 +438,95 @@ body::before {
   .service .ico { animation: none !important; }
   .btn-primary { animation: none !important; }
 }
+
+/* ===================================================================
+   Mobile-Layouts (≤760px) – bewusst abwechslungsreich, nur Mobile
+   =================================================================== */
+.slider-dots { display: none; }
+
+@media (max-width: 760px) {
+
+  /* Header: CTA kompakt sichtbar + Hamburger */
+  .nav-cta .btn { display: inline-flex; padding: 8px 12px; font-size: .74rem; }
+  .nav-cta { gap: 9px; }
+  .logo { font-size: 1.1rem; }
+  .logo-mark { width: 30px; height: 30px; }
+
+  /* Sektionen kompakter */
+  .section-head { margin-bottom: 34px; }
+  .section-head p { font-size: .96rem; }
+
+  /* 1) Pain-Points → 2×2 Kacheln */
+  .pains { grid-template-columns: 1fr 1fr; gap: 11px; }
+  .pain { padding: 16px 13px; border-radius: 16px; }
+  .pain:hover { transform: none; }
+  .pain .x { width: 32px; height: 32px; font-size: 1.05rem; margin-bottom: 10px; }
+  .pain h3 { font-size: .95rem; }
+  .pain p { font-size: .79rem; }
+
+  /* 2) Leistungen → wischbarer Slider */
+  .services-grid {
+    display: flex; gap: 14px; overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    padding: 4px 0 8px; scrollbar-width: none;
+  }
+  .services-grid::-webkit-scrollbar { display: none; }
+  .services-grid > .service { flex: 0 0 80%; scroll-snap-align: center; }
+  .service { padding: 24px 20px; }
+  .service:hover { transform: none; }
+  .services-grid .reveal { opacity: 1 !important; transform: none !important; }
+
+  /* 3) Warum AdForge → 2 Spalten nebeneinander, kompakt */
+  .compare { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .compare-col { padding: 16px 11px; border-radius: 16px; }
+  .compare-col h3 { font-size: .88rem; margin-bottom: 12px; gap: 6px; }
+  .compare-col li { font-size: .72rem; padding: 7px 0; gap: 7px; }
+  .compare-col .ic { width: 18px; height: 18px; font-size: .6rem; margin-top: 1px; }
+
+  /* 4) Ergebnisse → 2×2 mit großen Zahlen */
+  .results-grid { grid-template-columns: 1fr 1fr; gap: 11px; margin-bottom: 32px; }
+  .result-card { padding: 16px 12px; border-radius: 16px; }
+  .result-card:hover { transform: none; }
+  .result-card .meta { flex-direction: column; gap: 3px; font-size: .6rem; margin-bottom: 9px; }
+  .result-card .big { font-size: 1.8rem; margin-bottom: 6px; }
+  .result-card .desc { font-size: .73rem; margin-bottom: 12px; }
+  .result-mini { gap: 9px; padding-top: 11px; }
+  .result-mini .v { font-size: .86rem; }
+  .result-mini .k { font-size: .57rem; }
+  .bigstats { grid-template-columns: 1fr 1fr; gap: 11px; }
+  .bigstat { padding: 22px 12px; }
+
+  /* 5) Bewertungen → wischbarer Slider */
+  .tm-grid {
+    display: flex; gap: 14px; overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    padding: 4px 0 8px; scrollbar-width: none;
+  }
+  .tm-grid::-webkit-scrollbar { display: none; }
+  .tm-grid > .tm-card { flex: 0 0 84%; scroll-snap-align: center; }
+  .tm-card:hover { transform: none; }
+  .tm-grid .reveal { opacity: 1 !important; transform: none !important; }
+
+  /* Slider-Punkte */
+  .slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+  .slider-dots button { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; background: rgba(255,255,255,.22); cursor: pointer; transition: all .25s ease; }
+  .slider-dots button.active { background: var(--primary-2); width: 22px; border-radius: 5px; }
+
+  /* 6) Prozess → vertikale Timeline */
+  .steps { display: block; }
+  .step {
+    position: relative; background: transparent !important; border: none !important;
+    box-shadow: none !important; transform: none !important; border-radius: 0;
+    border-left: 2px solid rgba(91,108,255,.30);
+    margin-left: 7px; padding: 0 0 26px 24px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: -8px; top: 3px; width: 14px; height: 14px;
+    border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--ember));
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .step .no { font-size: .72rem; }
+  .step h3 { margin: 8px 0 8px; font-size: 1.12rem; }
+  .step p { font-size: .9rem; }
+}

@@ -178,6 +178,42 @@
     });
   }
 
+  /* ---- Mobile-Slider Punkte (Leistungen & Bewertungen) ---- */
+  function setupSliderDots(slider) {
+    if (!slider || slider.dataset.dots) return;
+    const cards = Array.from(slider.children);
+    if (cards.length < 2) return;
+    const dots = document.createElement("div");
+    dots.className = "slider-dots";
+    cards.forEach((card, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", "Karte " + (i + 1));
+      b.addEventListener("click", () => {
+        const sr = slider.getBoundingClientRect();
+        const cr = card.getBoundingClientRect();
+        slider.scrollBy({ left: (cr.left + cr.width / 2) - (sr.left + sr.width / 2), behavior: "smooth" });
+      });
+      dots.appendChild(b);
+    });
+    slider.parentNode.insertBefore(dots, slider.nextSibling);
+    const update = () => {
+      const sr = slider.getBoundingClientRect();
+      const center = sr.left + sr.width / 2;
+      let best = 0, bestD = Infinity;
+      cards.forEach((c, i) => {
+        const cr = c.getBoundingClientRect();
+        const d = Math.abs((cr.left + cr.width / 2) - center);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      Array.from(dots.children).forEach((d, i) => d.classList.toggle("active", i === best));
+    };
+    slider.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
+    update();
+    slider.dataset.dots = "1";
+  }
+  [".services-grid", ".tm-grid"].forEach((sel) => setupSliderDots(document.querySelector(sel)));
+
   /* ---- Year in footer ---- */
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 })();
