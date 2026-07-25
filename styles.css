@@ -378,7 +378,7 @@ body::before {
   animation: auroraDrift 26s ease-in-out infinite alternate;
 }
 @keyframes auroraDrift {
-  0%   { background-position: 0% 0%; }
+  0% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
 }
 
@@ -409,7 +409,7 @@ body::before {
 .btn-primary { animation: ctaGlow 3.2s ease-in-out infinite; }
 @keyframes ctaGlow {
   0%,100% { box-shadow: 0 8px 30px rgba(91,108,255,0.40); }
-  50%     { box-shadow: 0 10px 40px rgba(255,122,47,0.45); }
+  50% { box-shadow: 0 10px 40px rgba(255,122,47,0.45); }
 }
 
 /* Wärmere, rundere Karten mit lebhafterem Hover */
@@ -536,4 +536,55 @@ body::before {
   .hero-cta .btn { width: 100%; }
   .cta-box { padding: 40px 20px; }
   .cta-box .btn-lg { display: flex; width: 100%; max-width: 100%; }
+}
+
+/* ===================================================================
+   Pricing-Pakete (Website-Verkaufsseite websites.html)
+   =================================================================== */
+.pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.price-card {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 36px 32px; display: flex; flex-direction: column;
+  transition: transform .3s, border-color .3s;
+}
+.price-card:hover { transform: translateY(-6px); border-color: var(--border-strong); }
+.price-card.featured { border-color: rgba(91,108,255,0.4); background: linear-gradient(180deg, rgba(91,108,255,0.1), var(--surface)); }
+.price-card .price-ribbon {
+  position: absolute; top: -14px; right: 26px; font-size: .72rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: #fff; padding: 6px 16px;
+  border-radius: 100px; background: linear-gradient(100deg, var(--primary), var(--ember));
+}
+.price-card .price-tag { font-size: .78rem; color: var(--muted-2); text-transform: uppercase; letter-spacing: .1em; font-weight: 600; margin-bottom: 8px; }
+.price-card h3 { margin-bottom: 6px; }
+.price-card .tagline { color: var(--muted); font-size: .95rem; margin-bottom: 22px; }
+.price-card .amount { font-size: 2.6rem; font-weight: 800; margin-bottom: 4px; }
+.price-card .amount span { font-size: 1rem; font-weight: 600; color: var(--muted); }
+.price-card .note { font-size: .82rem; color: var(--muted-2); margin-bottom: 24px; }
+.price-list { list-style: none; margin: 0 0 28px; padding: 0; flex: 1; }
+.price-list li { display: flex; gap: 10px; align-items: flex-start; font-size: .92rem; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.price-list li:last-child { border-bottom: none; }
+.price-list li .ck { color: var(--primary-2); font-weight: 800; flex-shrink: 0; }
+
+/* Paket-Auswahl im Formular */
+.pkg-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
+.pkg-option {
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 16px;
+  cursor: pointer; background: var(--bg-2); transition: border-color .2s, background .2s;
+}
+.pkg-option.active { border-color: var(--primary); background: rgba(91,108,255,0.12); }
+.pkg-option .pkg-name { font-weight: 700; font-size: .92rem; }
+.pkg-option .pkg-price { font-size: .82rem; color: var(--muted); margin-top: 2px; }
+.pkg-option input { display: none; }
+.price-summary {
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px dashed rgba(91,108,255,0.4); border-radius: var(--radius-sm);
+  padding: 14px 18px; margin-bottom: 22px; background: rgba(91,108,255,0.06);
+}
+.price-summary .label { font-size: .85rem; color: var(--muted); }
+.price-summary .total { font-size: 1.4rem; font-weight: 800; }
+.check { justify-content: space-between; }
+
+@media (max-width: 760px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pkg-choice { grid-template-columns: 1fr; }
 }

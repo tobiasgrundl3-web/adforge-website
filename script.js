@@ -188,7 +188,7 @@
     }
   }
 
-  /* ---- Contact form → Zapier webhook ---- */
+  /* ---- Contact/lead forms → Zapier webhook ---- */
   const form = document.querySelector("form[data-webhook]");
   if (form) {
     const status = form.querySelector(".form-status");
@@ -208,7 +208,20 @@
       const kanaele = fd.getAll("Kanal");
       fd.delete("Kanal");
       fd.append("Kanaele", kanaele.join(", "));
-      fd.append("Quelle", "adforge-marketing.de · Kontaktformular");
+
+      // Generisch: weitere Mehrfachauswahl-Felder (z.B. Zusatzleistungen) zusammenfassen
+      const handled = new Set(["Kanal", "Kanaele"]);
+      Array.from(fd.keys()).forEach((key) => {
+        if (handled.has(key)) return;
+        handled.add(key);
+        const vals = fd.getAll(key);
+        if (vals.length > 1) {
+          fd.delete(key);
+          fd.append(key, vals.join(", "));
+        }
+      });
+
+      fd.append("Quelle", document.title + " · " + window.location.pathname);
       fd.append("Gesendet am", new Date().toLocaleString("de-DE"));
 
       const original = btn ? btn.textContent : "";
@@ -222,7 +235,7 @@
         });
         // Bei no-cors ist die Antwort "opaque" – wir werten den fehlenden Netzwerkfehler als Erfolg.
         trackEvent("formular_gesendet", {
-          form_name: "Kontaktformular",
+          form_name: document.title,
           kanaele: kanaele.join(", "),
           page_path: window.location.pathname,
         });
