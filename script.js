@@ -5,6 +5,59 @@
   "use strict";
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- GA4 Event-Tracking Helper ---- */
+  function trackEvent(name, params) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params || {});
+    }
+  }
+
+  /* ---- GA4: Scrolltiefe 25 / 50 / 75 % ---- */
+  (function () {
+    const thresholds = [25, 50, 75];
+    const fired = new Set();
+    function checkScrollDepth() {
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      if (scrollable <= 0) return;
+      const pct = Math.round(((window.scrollY || doc.scrollTop) / scrollable) * 100);
+      thresholds.forEach((t) => {
+        if (pct >= t && !fired.has(t)) {
+          fired.add(t);
+          trackEvent("scroll_tiefe", {
+            percent_scrolled: t,
+            page_path: window.location.pathname,
+          });
+        }
+      });
+    }
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          checkScrollDepth();
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
+    checkScrollDepth();
+  })();
+
+  /* ---- GA4: CTA-Button-Klicks (alle primären Buttons, außer Formular-Submit) ---- */
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-primary");
+    if (!btn || btn.type === "submit") return;
+    trackEvent("cta_klick", {
+      button_text: btn.textContent.trim(),
+      page_path: window.location.pathname,
+      link_url: btn.getAttribute("href") || "",
+    });
+  });
+
   /* ---- Sticky header ---- */
   const header = document.querySelector(".header");
   if (header) {
@@ -168,6 +221,11 @@
           body: fd,
         });
         // Bei no-cors ist die Antwort "opaque" – wir werten den fehlenden Netzwerkfehler als Erfolg.
+        trackEvent("formular_gesendet", {
+          form_name: "Kontaktformular",
+          kanaele: kanaele.join(", "),
+          page_path: window.location.pathname,
+        });
         form.reset();
         showStatus("Vielen Dank! Deine Anfrage ist eingegangen – ich melde mich innerhalb von 48 Stunden bei dir.", true);
         if (btn) btn.textContent = "Gesendet ✓";
